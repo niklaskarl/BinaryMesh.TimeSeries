@@ -19,6 +19,11 @@ namespace BinaryMesh.TimeSeries
         ITimeSeriesFrame Frame { get; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        TimeSeriesSignalType SignalType { get; }
+
+        /// <summary>
         /// Gets the unique name of the signal.
         /// </summary>
         string Name { get; }
