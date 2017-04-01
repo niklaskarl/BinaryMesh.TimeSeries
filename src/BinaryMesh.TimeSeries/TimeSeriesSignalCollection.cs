@@ -16,20 +16,20 @@ namespace BinaryMesh.TimeSeries
         IList<ITimeSeriesSignal>, IReadOnlyList<ITimeSeriesSignal>,
         IDictionary<string, ITimeSeriesSignal>, IReadOnlyDictionary<string, ITimeSeriesSignal>
     {
-        private readonly ITimeSeriesSignal[] _columns;
+        private readonly ITimeSeriesSignal[] _signals;
 
-        internal TimeSeriesSignalCollection(ITimeSeriesSignal[] columns)
+        internal TimeSeriesSignalCollection(ITimeSeriesSignal[] signals)
         {
-            _columns = columns;
+            _signals = signals;
         }
 
-        public int Count => _columns.Length;
+        public int Count => _signals.Length;
 
         bool ICollection<KeyValuePair<string, ITimeSeriesSignal>>.IsReadOnly => true;
 
         bool ICollection<ITimeSeriesSignal>.IsReadOnly => true;
 
-        public ICollection<string> Keys => _columns.Select(c => c.Name).ToList();
+        public ICollection<string> Keys => _signals.Select(c => c.Name).ToList();
 
         IEnumerable<string> IReadOnlyDictionary<string, ITimeSeriesSignal>.Keys => Keys;
 
@@ -37,9 +37,9 @@ namespace BinaryMesh.TimeSeries
 
         IEnumerable<ITimeSeriesSignal> IReadOnlyDictionary<string, ITimeSeriesSignal>.Values => Values;
 
-        public ITimeSeriesSignal this[int index] => _columns[index];
+        public ITimeSeriesSignal this[int index] => _signals[index];
 
-        public ITimeSeriesSignal this[string columnName] => _columns.FirstOrDefault(c => c.Name == columnName) ?? throw new KeyNotFoundException();
+        public ITimeSeriesSignal this[string signalName] => _signals.FirstOrDefault(c => c.Name == signalName) ?? throw new KeyNotFoundException();
 
         ITimeSeriesSignal IList<ITimeSeriesSignal>.this[int index]
         {
@@ -47,17 +47,17 @@ namespace BinaryMesh.TimeSeries
             set => throw new NotSupportedException();
         }
 
-        ITimeSeriesSignal IDictionary<string, ITimeSeriesSignal>.this[string columnName]
+        ITimeSeriesSignal IDictionary<string, ITimeSeriesSignal>.this[string signalName]
         {
-            get => this[columnName];
+            get => this[signalName];
             set => throw new NotSupportedException();
         }
 
-        public bool TryGetValue(string columnName, out ITimeSeriesSignal value)
+        public bool TryGetValue(string signalName, out ITimeSeriesSignal value)
         {
             for (int i = 0; i < Count; i++)
             {
-                if (this[i].Name == columnName)
+                if (this[i].Name == signalName)
                 {
                     value = this[i];
                     return true;
@@ -68,14 +68,14 @@ namespace BinaryMesh.TimeSeries
             return false;
         }
 
-        public int IndexOf(ITimeSeriesSignal column)
+        public int IndexOf(ITimeSeriesSignal signal)
         {
-            return ((IList<ITimeSeriesSignal>)_columns).IndexOf(column);
+            return ((IList<ITimeSeriesSignal>)_signals).IndexOf(signal);
         }
 
-        public bool Contains(ITimeSeriesSignal column)
+        public bool Contains(ITimeSeriesSignal signal)
         {
-            return IndexOf(column) >= 0;
+            return IndexOf(signal) >= 0;
         }
 
         bool ICollection<KeyValuePair<string, ITimeSeriesSignal>>.Contains(KeyValuePair<string, ITimeSeriesSignal> item)
@@ -91,11 +91,11 @@ namespace BinaryMesh.TimeSeries
             return false;
         }
 
-        public bool ContainsKey(string columnName)
+        public bool ContainsKey(string signalName)
         {
             for (int i = 0; i < Count; i++)
             {
-                if (this[i].Name == columnName)
+                if (this[i].Name == signalName)
                 {
                     return true;
                 }
@@ -106,12 +106,12 @@ namespace BinaryMesh.TimeSeries
 
         public IEnumerator<ITimeSeriesSignal> GetEnumerator()
         {
-            return (_columns as IEnumerable<ITimeSeriesSignal>).GetEnumerator();
+            return (_signals as IEnumerable<ITimeSeriesSignal>).GetEnumerator();
         }
 
         IEnumerator<KeyValuePair<string, ITimeSeriesSignal>> IEnumerable<KeyValuePair<string, ITimeSeriesSignal>>.GetEnumerator()
         {
-            return _columns.Select(c => new KeyValuePair<string, ITimeSeriesSignal>(c.Name, c)).GetEnumerator();
+            return _signals.Select(c => new KeyValuePair<string, ITimeSeriesSignal>(c.Name, c)).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -121,12 +121,12 @@ namespace BinaryMesh.TimeSeries
 
         void ICollection<ITimeSeriesSignal>.CopyTo(ITimeSeriesSignal[] array, int arrayIndex)
         {
-            ((ICollection<ITimeSeriesSignal>)_columns).CopyTo(array, arrayIndex);
+            ((ICollection<ITimeSeriesSignal>)_signals).CopyTo(array, arrayIndex);
         }
 
         void ICollection<KeyValuePair<string, ITimeSeriesSignal>>.CopyTo(KeyValuePair<string, ITimeSeriesSignal>[] array, int arrayIndex)
         {
-            _columns.Select(c => new KeyValuePair<string, ITimeSeriesSignal>(c.Name, c)).ToList().CopyTo(array, arrayIndex);
+            _signals.Select(c => new KeyValuePair<string, ITimeSeriesSignal>(c.Name, c)).ToList().CopyTo(array, arrayIndex);
         }
 
         void IList<ITimeSeriesSignal>.Insert(int index, ITimeSeriesSignal item)
