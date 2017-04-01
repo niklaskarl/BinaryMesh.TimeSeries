@@ -35,5 +35,25 @@ namespace BinaryMesh.TimeSeries.Mdf
         {
             throw new NotImplementedException();
         }
+
+        public bool IsNull(int signalIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetReal(int signalIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryGetReal(int signalIndex, out double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetString(int signalIndex)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
