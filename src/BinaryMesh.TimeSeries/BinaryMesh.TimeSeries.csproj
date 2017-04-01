@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard1.3</TargetFrameworks>
+    <NetStandardImplicitPackageVersion Condition="'$(TargetFramework)' == 'netstandard1.3'">1.6.1</NetStandardImplicitPackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>BinaryMesh.TimeSeries</Title>
+    <Authors>Niklas Karl</Authors>
+    <Description>Represents time series from different sources in a unified and efficient manner.</Description>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <Copyright>Copyright © Binary Mesh 2016</Copyright>
+    <PackageTags>timeseries</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <DocumentationFile>bin\Release\net45\BinaryMesh.TimeSeries.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.3|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.3\BinaryMesh.TimeSeries.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BinaryMesh.Data.Mdf" Version="1.0.2" />
+    <PackageReference Include="BinaryMesh.Data.RLanguage" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="StyleCop.Analyzers" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+</Project>
