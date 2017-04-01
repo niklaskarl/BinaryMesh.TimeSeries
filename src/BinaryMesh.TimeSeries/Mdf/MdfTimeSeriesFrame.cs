@@ -14,24 +14,26 @@ namespace BinaryMesh.TimeSeries.Mdf
     {
         private readonly MdfTimeSeriesSet _set;
 
-        private readonly MdfChannelGroup _group;
+        private readonly MdfChannelGroup _channelGroup;
 
         private readonly TimeSeriesSignalCollection _signals;
 
-        internal MdfTimeSeriesFrame(MdfTimeSeriesSet set, MdfChannelGroup group)
+        internal MdfTimeSeriesFrame(MdfTimeSeriesSet set, MdfChannelGroup channelGroup)
         {
             _set = set;
-            _group = group;
-            _signals = new TimeSeriesSignalCollection(_group.Channels.Select(c => new MdfTimeSeriesSignal(this, c)).ToArray());
+            _channelGroup = channelGroup;
+            _signals = new TimeSeriesSignalCollection(_channelGroup.Channels.Select(c => new MdfTimeSeriesSignal(this, c)).ToArray());
         }
 
         public ITimeSeriesSet Set => _set;
 
         public ITimeSeriesSignalCollection Signals => _signals;
 
-        public long RecordCount => _group.Records.Count;
+        public long RecordCount => _channelGroup.Records.Count;
 
         public bool CanSeek => false;
+
+        internal MdfChannelGroup ChannelGroup => _channelGroup;
 
         public ITimeSeriesRecordReader GetRecordReader()
         {

@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------
 
 using System;
+using BinaryMesh.Data.Mdf;
 
 namespace BinaryMesh.TimeSeries.Mdf
 {
@@ -12,48 +13,124 @@ namespace BinaryMesh.TimeSeries.Mdf
     {
         private readonly MdfTimeSeriesFrame _frame;
 
+        private readonly MdfRecordReader _reader;
+
+        private readonly MdfChannel _timeChannel;
+
+        private long _index;
+
         internal MdfTimeSeriesRecordReader(MdfTimeSeriesFrame frame)
         {
             _frame = frame;
+            _reader = _frame.ChannelGroup.GetRecordReader();
+            _timeChannel = _frame.ChannelGroup.TimeChannel;
+
+            _index = -1;
         }
 
-        public long CurrentIndex => throw new NotImplementedException();
+        public long CurrentIndex
+        {
+            get
+            {
+                if (_index < 0)
+                {
+                    throw new InvalidOperationException();
+                }
 
-        public TimeSpan CurrentOffset => throw new NotImplementedException();
+                return _index;
+            }
+        }
+
+        public TimeSpan CurrentOffset
+        {
+            get
+            {
+                if (_index < 0)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                return TimeSpan.FromSeconds((double)_reader.GetValue(_timeChannel));
+            }
+        }
 
         public bool Read()
         {
-            throw new NotImplementedException();
+            if (_reader.Read())
+            {
+                _index++;
+                return true;
+            }
+
+            return false;
         }
 
         public void Seek(long index)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public void Seek(TimeSpan offset, SeekMode mode)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public bool IsNull(int signalIndex)
         {
-            throw new NotImplementedException();
+            /*
+             * The MDF format doesn't support 'null' values.
+             * So simply return false.
+             */
+            return false;
         }
 
         public double GetReal(int signalIndex)
         {
-            throw new NotImplementedException();
+            return GetReal(_frame.Signals[signalIndex]);
+        }
+
+        public double GetReal(ITimeSeriesSignal signal)
+        {
+            MdfChannel channel = ((MdfTimeSeriesSignal)signal).Channel;
+            switch (channel.DataType)
+            {
+                case MdfDataType.FloatingPoint:
+                    return (double)_reader.GetValue(channel);
+                case MdfDataType.Integer:
+                    return (long)_reader.GetValue(channel);
+                case MdfDataType.UnsignedInteger:
+                    return (ulong)_reader.GetValue(channel);
+                default:
+                    throw new InvalidCastException();
+            }
         }
 
         public bool TryGetReal(int signalIndex, out double value)
         {
-            throw new NotImplementedException();
+            /*
+             * The MDF format doesn't support 'null' values.
+             * So simply get the value and return false.
+             */
+
+            value = GetReal(signalIndex);
+            return false;
         }
 
         public string GetString(int signalIndex)
         {
-            throw new NotImplementedException();
+            return GetString(_frame.Signals[signalIndex]);
+        }
+
+        public string GetString(ITimeSeriesSignal signal)
+        {
+            MdfChannel channel = ((MdfTimeSeriesSignal)signal).Channel;
+            switch (channel.DataType)
+            {
+                case MdfDataType.String:
+                    return (string)_reader.GetValue(channel);
+                default:
+                    throw new InvalidCastException();
+            }
         }
     }
 }

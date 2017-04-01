@@ -32,6 +32,8 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         public string DisplayName => _channel.DisplayName;
 
+        internal MdfChannel Channel => _channel;
+
         private static TimeSeriesSignalType GetSignalTypeForMdfDataType(MdfDataType type)
         {
             switch (type)
