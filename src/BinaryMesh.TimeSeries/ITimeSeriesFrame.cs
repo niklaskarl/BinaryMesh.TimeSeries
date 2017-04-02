@@ -20,6 +20,11 @@ namespace BinaryMesh.TimeSeries
         ITimeSeriesSet Set { get; }
 
         /// <summary>
+        /// Gets the name of the frame.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// Gets a list of all <see cref="ITimeSeriesSignal"/>s in the frame.
         /// </summary>
         ITimeSeriesSignalCollection Signals { get; }

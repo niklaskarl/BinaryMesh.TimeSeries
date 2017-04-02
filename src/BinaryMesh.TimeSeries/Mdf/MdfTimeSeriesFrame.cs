@@ -27,6 +27,8 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         public ITimeSeriesSet Set => _set;
 
+        public string Name => _channelGroup.Comment;
+
         public ITimeSeriesSignalCollection Signals => _signals;
 
         public long RecordCount => _channelGroup.Records.Count;
