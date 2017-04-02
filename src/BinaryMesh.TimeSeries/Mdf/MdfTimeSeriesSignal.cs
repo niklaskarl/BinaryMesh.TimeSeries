@@ -30,7 +30,7 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         public string Name => _channel.SignalName;
 
-        public string DisplayName => _channel.DisplayName;
+        public string DisplayName => string.IsNullOrWhiteSpace(_channel.DisplayName) ? _channel.SignalName : _channel.DisplayName;
 
         internal MdfChannel Channel => _channel;
 
