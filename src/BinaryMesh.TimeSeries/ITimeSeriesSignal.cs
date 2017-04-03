@@ -9,7 +9,7 @@ using System;
 namespace BinaryMesh.TimeSeries
 {
     /// <summary>
-    /// A signal 
+    /// A signal in a <see cref="ITimeSeriesFrame"/>.
     /// </summary>
     public interface ITimeSeriesSignal
     {
@@ -19,7 +19,7 @@ namespace BinaryMesh.TimeSeries
         ITimeSeriesFrame Frame { get; }
 
         /// <summary>
-        /// 
+        /// Gets the data type of the signal.
         /// </summary>
         TimeSeriesSignalType SignalType { get; }
 

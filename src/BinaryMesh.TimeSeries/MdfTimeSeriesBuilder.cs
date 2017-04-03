@@ -1,4 +1,10 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="MdfTimeSeriesBuilder.cs" company="Binary Mesh">
+// Copyright © Binary Mesh. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 using System.IO;
 using BinaryMesh.Data.Mdf;
 using BinaryMesh.TimeSeries.Mdf;

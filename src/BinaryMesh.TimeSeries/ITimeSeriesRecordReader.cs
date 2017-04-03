@@ -57,7 +57,7 @@ namespace BinaryMesh.TimeSeries
         /// <param name="offset">The time offset to seek for, relative to the frame's start of the measurement.</param>
         /// <param name="mode">The mode used to determine the actual record.</param>
         void Seek(TimeSpan offset, SeekMode mode);
-        
+
         /// <summary>
         /// Checks whether the curent value for the specified signal is <c>null</c>.
         /// </summary>
@@ -73,7 +73,7 @@ namespace BinaryMesh.TimeSeries
         double GetReal(int signalIndex);
 
         /// <summary>
-        /// GGets the current value of the signal with the specified index as a real number.
+        /// Gets the current value of the signal with the specified index as a real number.
         /// </summary>
         /// <param name="signalIndex">The index of the signal for which to get the value.</param>
         /// <param name="value">When this method returns, contains the current value for the specified signal, if it is not <c>null</c>.</param>
