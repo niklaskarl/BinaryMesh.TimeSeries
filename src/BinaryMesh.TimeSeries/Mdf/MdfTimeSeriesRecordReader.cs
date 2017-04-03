@@ -109,11 +109,11 @@ namespace BinaryMesh.TimeSeries.Mdf
         {
             /*
              * The MDF format doesn't support 'null' values.
-             * So simply get the value and return false.
+             * So simply get the value and return true.
              */
 
             value = GetReal(signalIndex);
-            return false;
+            return true;
         }
 
         public string GetString(int signalIndex)
