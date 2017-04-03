@@ -29,9 +29,9 @@ namespace BinaryMesh.TimeSeries
 
         bool ICollection<ITimeSeriesSignal>.IsReadOnly => true;
 
-        public ICollection<string> Keys => _signals.Select(c => c.Name).ToList();
+        public IEnumerable<string> Keys => _signals.Select(c => c.Name);
 
-        IEnumerable<string> IReadOnlyDictionary<string, ITimeSeriesSignal>.Keys => Keys;
+        ICollection<string> IDictionary<string, ITimeSeriesSignal>.Keys => Keys.ToList();
 
         public ICollection<ITimeSeriesSignal> Values => this;
 
