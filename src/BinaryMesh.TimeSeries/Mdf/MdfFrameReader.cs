@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MdfTimeSeriesRecordReader.cs" company="Binary Mesh">
+// <copyright file="MdfFrameReader.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,9 +9,9 @@ using BinaryMesh.Data.Mdf;
 
 namespace BinaryMesh.TimeSeries.Mdf
 {
-    internal class MdfTimeSeriesRecordReader : ITimeSeriesRecordReader
+    internal sealed class MdfFrameReader : IFrameReader
     {
-        private readonly MdfTimeSeriesFrame _frame;
+        private readonly MdfFrame _frame;
 
         private readonly MdfRecordReader _reader;
 
@@ -19,7 +19,7 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         private long _index;
 
-        internal MdfTimeSeriesRecordReader(MdfTimeSeriesFrame frame)
+        internal MdfFrameReader(MdfFrame frame)
         {
             _frame = frame;
             _reader = _frame.ChannelGroup.GetRecordReader();
@@ -89,9 +89,9 @@ namespace BinaryMesh.TimeSeries.Mdf
             return GetReal(_frame.Signals[signalIndex]);
         }
 
-        public double GetReal(ITimeSeriesSignal signal)
+        public double GetReal(ISignal signal)
         {
-            MdfChannel channel = ((MdfTimeSeriesSignal)signal).Channel;
+            MdfChannel channel = ((MdfSignal)signal).Channel;
             switch (channel.DataType)
             {
                 case MdfDataType.FloatingPoint:
@@ -121,9 +121,9 @@ namespace BinaryMesh.TimeSeries.Mdf
             return GetString(_frame.Signals[signalIndex]);
         }
 
-        public string GetString(ITimeSeriesSignal signal)
+        public string GetString(ISignal signal)
         {
-            MdfChannel channel = ((MdfTimeSeriesSignal)signal).Channel;
+            MdfChannel channel = ((MdfSignal)signal).Channel;
             switch (channel.DataType)
             {
                 case MdfDataType.String:

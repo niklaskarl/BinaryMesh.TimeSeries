@@ -1,0 +1,20 @@
+﻿using System;
+
+namespace BinaryMesh.TimeSeries
+{
+    /// <summary>
+    /// A <see cref="ISignal"/> that is part of a <see cref="IFrame"/>
+    /// </summary>
+    public interface IFrameSignal : ISignal
+    {
+        /// <summary>
+        /// Gets the <see cref="IFrame"/> the signal is contained in.
+        /// </summary>
+        IFrame Frame { get; }
+
+        /// <summary>
+        /// Gets the index of the signal in the <see cref="IFrame"/>.
+        /// </summary>
+        int Index { get; }
+    }
+}

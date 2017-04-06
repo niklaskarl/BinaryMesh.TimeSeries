@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ITimeSeriesRecordReader.cs" company="Binary Mesh">
+// <copyright file="IRecordReader.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -25,9 +25,9 @@ namespace BinaryMesh.TimeSeries
     }
 
     /// <summary>
-    /// Supports forward reading and, if supported, random seeking of records in a <see cref="ITimeSeriesFrame"/>.
+    /// Supports forward reading and, if supported, random seeking of discrete records in a <see cref="IFrame"/>.
     /// </summary>
-    public interface ITimeSeriesRecordReader
+    public interface IFrameReader
     {
         /// <summary>
         /// Gets the index of the current record.

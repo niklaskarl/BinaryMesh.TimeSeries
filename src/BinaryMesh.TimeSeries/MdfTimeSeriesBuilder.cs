@@ -12,20 +12,20 @@ using BinaryMesh.TimeSeries.Mdf;
 namespace BinaryMesh.TimeSeries
 {
     /// <summary>
-    /// Exposes methods for creating <see cref="ITimeSeriesSet"/>s from ASAM MDF files.
+    /// Exposes methods for creating <see cref="ITimeSeries"/>s from ASAM MDF files.
     /// </summary>
     public static class MdfTimeSeriesBuilder
     {
         /// <summary>
-        /// Creates a new <see cref="ITimeSeriesSet"/> from a stream pointing to a ASAM MDF file.
-        /// The stream will be captured by the <see cref="ITimeSeriesSet"/> for it's whole lifetime and must not be disposed before the <see cref="ITimeSeriesSet"/> is disposed.
+        /// Creates a new <see cref="ITimeSeries"/> from a stream pointing to a ASAM MDF file.
+        /// The stream will be captured by the <see cref="ITimeSeries"/> for it's whole lifetime and must not be disposed before the <see cref="ITimeSeries"/> is disposed.
         /// </summary>
         /// <param name="stream">The stream from which to read the file.</param>
-        /// <returns>The newly created <see cref="ITimeSeriesSet"/>.</returns>
-        public static ITimeSeriesSet BuildMdfTimeSeriesSetFromStream(Stream stream)
+        /// <returns>The newly created <see cref="ITimeSeries"/>.</returns>
+        public static ITimeSeries BuildMdfTimeSeriesSetFromStream(Stream stream)
         {
             MdfFile file = new MdfFile(stream);
-            return new MdfTimeSeriesSet(file);
+            return new MdfTimeSeries(file);
         }
     }
 }

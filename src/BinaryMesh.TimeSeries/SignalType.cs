@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="TimeSeriesSignalType.cs" company="Binary Mesh">
+// <copyright file="SignalType.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,9 +9,9 @@ using System;
 namespace BinaryMesh.TimeSeries
 {
     /// <summary>
-    /// Specifies the type of <see cref="ITimeSeriesSignal"/> values.
+    /// Specifies the type of <see cref="ISignal"/> values.
     /// </summary>
-    public enum TimeSeriesSignalType
+    public enum SignalType
     {
         /// <summary>
         /// The type of the signal values is unknown and cannot be read.

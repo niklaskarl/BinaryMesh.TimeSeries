@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MdfTimeSeriesFrame.cs" company="Binary Mesh">
+// <copyright file="MdfFrame.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,26 +10,28 @@ using BinaryMesh.Data.Mdf;
 
 namespace BinaryMesh.TimeSeries.Mdf
 {
-    internal class MdfTimeSeriesFrame : ITimeSeriesFrame
+    internal sealed class MdfFrame : IFrame
     {
-        private readonly MdfTimeSeriesSet _set;
+        private readonly MdfTimeSeries _set;
 
         private readonly MdfChannelGroup _channelGroup;
 
-        private readonly TimeSeriesSignalCollection _signals;
+        private readonly FrameSignalCollection _signals;
 
-        internal MdfTimeSeriesFrame(MdfTimeSeriesSet set, MdfChannelGroup channelGroup)
+        internal MdfFrame(MdfTimeSeries set, MdfChannelGroup channelGroup)
         {
             _set = set;
             _channelGroup = channelGroup;
-            _signals = new TimeSeriesSignalCollection(_channelGroup.Channels.Select(c => new MdfTimeSeriesSignal(this, c)).ToArray());
+            _signals = new FrameSignalCollection(_channelGroup.Channels.Select((c, i) => new MdfSignal(this, i, c)).ToArray());
         }
 
-        public ITimeSeriesSet Set => _set;
+        public ITimeSeries Set => _set;
 
         public string Name => _channelGroup.Comment;
 
-        public ITimeSeriesSignalCollection Signals => _signals;
+        public DateTime StartTime => _channelGroup.File.TimeStamp;
+
+        public IFrameSignalCollection Signals => _signals;
 
         public long RecordCount => _channelGroup.Records.Count;
 
@@ -37,9 +39,9 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         internal MdfChannelGroup ChannelGroup => _channelGroup;
 
-        public ITimeSeriesRecordReader GetRecordReader()
+        public IFrameReader GetDiscreteReader()
         {
-            return new MdfTimeSeriesRecordReader(this);
+            return new MdfFrameReader(this);
         }
     }
 }
