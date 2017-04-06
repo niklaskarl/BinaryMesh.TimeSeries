@@ -15,16 +15,16 @@ namespace BinaryMesh.TimeSeries
     public interface IFrameSignalCollection : IReadOnlyList<IFrameSignal>
     {
         /// <summary>
+        /// Gets a <see cref="IEnumerable{T}"/> over the names of all <see cref="IFrameSignal"/>s in the collection.
+        /// </summary>
+        IEnumerable<string> Keys { get; }
+
+        /// <summary>
         /// Gets the <see cref="IFrameSignal"/> with the specified name.
         /// </summary>
         /// <param name="name">The name of the <see cref="IFrameSignal"/> to get.</param>
         /// <returns>The <see cref="ISignal"/> with the specified name.</returns>
         IFrameSignal this[string name] { get; }
-
-        /// <summary>
-        /// Gets a <see cref="IEnumerable{T}"/> over the names of all <see cref="IFrameSignal"/>s in the collection.
-        /// </summary>
-        IEnumerable<string> Keys { get; }
 
         /// <summary>
         /// Determines whether the collection contains a <see cref="IFrameSignal"/> with the specified name.

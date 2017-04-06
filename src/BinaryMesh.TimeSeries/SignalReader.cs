@@ -1,4 +1,10 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------
+// <copyright file="SignalReader.cs" company="Binary Mesh">
+// Copyright © Binary Mesh. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 
 namespace BinaryMesh.TimeSeries
 {
@@ -27,7 +33,6 @@ namespace BinaryMesh.TimeSeries
         public SignalReader(IFrameSignal signal)
         {
             _signal = signal;
-            // TODO _signalIndex
             _reader = _signal.Frame.GetDiscreteReader();
         }
 
@@ -81,7 +86,7 @@ namespace BinaryMesh.TimeSeries
             }
             else
             {
-                value = _lastValue + ((double)currentTicks / ticks) * (_nextValue - _lastValue);
+                value = _lastValue + (((double)currentTicks / ticks) * (_nextValue - _lastValue));
             }
 
             return true;

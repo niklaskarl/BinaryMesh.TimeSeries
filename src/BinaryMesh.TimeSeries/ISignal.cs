@@ -29,12 +29,13 @@ namespace BinaryMesh.TimeSeries
         string DisplayName { get; }
 
         /// <summary>
-        /// Gets the time of the first measurement data point in the signal.
+        /// Gets the start time for which the signal is defined.
         /// </summary>
         DateTime StartTime { get; }
 
+        /// <summary>
+        /// Gets the duration for which the signal is defined.
+        /// </summary>
         TimeSpan Duration { get; }
-
-
     }
 }
