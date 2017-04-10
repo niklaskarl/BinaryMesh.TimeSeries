@@ -9,7 +9,7 @@ using System;
 namespace BinaryMesh.TimeSeries
 {
     /// <summary>
-    /// A signal in a <see cref="IFrame"/>.
+    /// A series of values defined over a period of time.
     /// </summary>
     public interface ISignal
     {
@@ -19,23 +19,29 @@ namespace BinaryMesh.TimeSeries
         SignalType SignalType { get; }
 
         /// <summary>
-        /// Gets the unique name of the signal.
+        /// Gets the relative start time of the signal.
         /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Gets the human friendly name of the signal.
-        /// </summary>
-        string DisplayName { get; }
-
-        /// <summary>
-        /// Gets the start time for which the signal is defined.
-        /// </summary>
-        DateTime StartTime { get; }
+        TimeSpan StartTime { get; }
 
         /// <summary>
         /// Gets the duration for which the signal is defined.
         /// </summary>
         TimeSpan Duration { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether absolute time values are defined for the signal.
+        /// </summary>
+        bool HasAbsoluteTime { get; }
+
+        /// <summary>
+        /// Gets the absolute start time of the signal, if defined.
+        /// </summary>
+        DateTime AbsoluteStartTime { get; }
+
+        /// <summary>
+        /// Creates a new <see cref="ISignalReader"/> for the signal.
+        /// </summary>
+        /// <returns>The created <see cref="ISignalReader"/> for the signal.</returns>
+        ISignalReader GetReader(TimeSpan startTime);
     }
 }

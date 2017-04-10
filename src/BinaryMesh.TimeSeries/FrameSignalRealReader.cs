@@ -8,7 +8,7 @@ using System;
 
 namespace BinaryMesh.TimeSeries
 {
-    internal sealed class SignalReader : ISignalReader
+    internal sealed class FrameSignalRealReader : ISignalReader
     {
         private readonly IFrameSignal _signal;
 
@@ -30,10 +30,13 @@ namespace BinaryMesh.TimeSeries
 
         private bool _endOfSignal;
 
-        public SignalReader(IFrameSignal signal)
+        public FrameSignalRealReader(IFrameSignal signal, TimeSpan startTime)
         {
             _signal = signal;
-            _reader = _signal.Frame.GetDiscreteReader();
+            _reader = _signal.Frame.GetReader();
+            _currentTime = startTime;
+
+            Initialize();
         }
 
         public ISignal Signal => _signal;

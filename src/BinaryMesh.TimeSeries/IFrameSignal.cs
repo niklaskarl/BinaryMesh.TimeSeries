@@ -22,5 +22,15 @@ namespace BinaryMesh.TimeSeries
         /// Gets the index of the signal in the <see cref="IFrame"/>.
         /// </summary>
         int Index { get; }
+
+        /// <summary>
+        /// Gets the unique name of the signal.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// Gets the human friendly name of the signal.
+        /// </summary>
+        string DisplayName { get; }
     }
 }

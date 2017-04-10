@@ -19,7 +19,7 @@ namespace BinaryMesh.TimeSeries
         ISignal Signal { get; }
 
         /// <summary>
-        /// Gets the time the reader currently points at, relative to the <see cref="ISignal.StartTime"/> of the <see cref="ISignal"/>.
+        /// Gets the time the reader currently points at, relative to the start time of the measurement.
         /// </summary>
         TimeSpan CurrentTime { get; }
 

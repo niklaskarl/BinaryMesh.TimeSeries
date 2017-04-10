@@ -37,11 +37,26 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         public string DisplayName => string.IsNullOrWhiteSpace(_channel.DisplayName) ? _channel.SignalName : _channel.DisplayName;
 
-        public DateTime StartTime => _frame.StartTime;
+        public TimeSpan StartTime => _frame.StartTime;
 
-        public TimeSpan Duration => throw new NotSupportedException();
+        public TimeSpan Duration => _frame.Duration;
+
+        public bool HasAbsoluteTime => true;
+
+        public DateTime AbsoluteStartTime => _frame.AbsoluteStartTime;
 
         internal MdfChannel Channel => _channel;
+
+        public ISignalReader GetReader(TimeSpan startTime)
+        {
+            switch (_signalType)
+            {
+                case SignalType.Real:
+                    return new FrameSignalRealReader(this, startTime);
+                default:
+                    throw new NotSupportedException();
+            }
+        }
 
         private static SignalType GetSignalTypeForMdfDataType(MdfDataType type)
         {

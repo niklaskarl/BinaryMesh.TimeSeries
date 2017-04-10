@@ -17,17 +17,12 @@ namespace BinaryMesh.TimeSeries
         /// <summary>
         /// Gets the <see cref="ITimeSeries"/> the frame belongs to.
         /// </summary>
-        ITimeSeries Set { get; }
+        ITimeSeries TimeSeries { get; }
 
         /// <summary>
         /// Gets the name of the frame.
         /// </summary>
         string Name { get; }
-
-        /// <summary>
-        /// Gets the name of the frame.
-        /// </summary>
-        DateTime StartTime { get; }
 
         /// <summary>
         /// Gets a list of all <see cref="ISignal"/>s in the frame.
@@ -49,6 +44,6 @@ namespace BinaryMesh.TimeSeries
         /// Creates a new <see cref="IFrameReader"/> which can be used to iterate over the signal values.
         /// </summary>
         /// <returns>The newly created <see cref="IFrameReader"/>.</returns>
-        IFrameReader GetDiscreteReader();
+        IFrameReader GetReader();
     }
 }

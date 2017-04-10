@@ -24,5 +24,10 @@ namespace BinaryMesh.TimeSeries
         /// Gets a list of all <see cref="IFrameSignal"/>s in the time series.
         /// </summary>
         IFrameSignalCollection Signals { get; }
+
+        /// <summary>
+        /// Gets the time when sampling of the time series started.
+        /// </summary>
+        DateTime StartTime { get; }
     }
 }
