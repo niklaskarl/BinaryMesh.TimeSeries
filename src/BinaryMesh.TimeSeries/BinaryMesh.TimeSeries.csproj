@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="StyleCop.Analyzers" Version="1.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

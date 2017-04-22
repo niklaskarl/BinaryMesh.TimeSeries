@@ -6,6 +6,7 @@
 
 using System;
 using BinaryMesh.Data.Mdf;
+using BinaryMesh.TimeSeries.Common;
 
 namespace BinaryMesh.TimeSeries.Mdf
 {
@@ -37,9 +38,9 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         public string DisplayName => string.IsNullOrWhiteSpace(_channel.DisplayName) ? _channel.SignalName : _channel.DisplayName;
 
-        public TimeSpan StartTime => _frame.StartTime;
+        public double StartTime => _frame.StartTime;
 
-        public TimeSpan Duration => _frame.Duration;
+        public double Duration => _frame.Duration;
 
         public bool HasAbsoluteTime => true;
 
@@ -47,12 +48,12 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         internal MdfChannel Channel => _channel;
 
-        public ISignalReader GetReader(TimeSpan startTime)
+        public ISignalReader GetReader(double startTime)
         {
             switch (_signalType)
             {
                 case SignalType.Real:
-                    return new FrameSignalRealReader(this, startTime);
+                    return new RealFrameSignalReader(this, startTime);
                 default:
                     throw new NotSupportedException();
             }

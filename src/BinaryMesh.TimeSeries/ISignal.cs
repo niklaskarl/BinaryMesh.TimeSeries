@@ -19,14 +19,14 @@ namespace BinaryMesh.TimeSeries
         SignalType SignalType { get; }
 
         /// <summary>
-        /// Gets the relative start time of the signal.
+        /// Gets the relative start time of the signal in seconds.
         /// </summary>
-        TimeSpan StartTime { get; }
+        double StartTime { get; }
 
         /// <summary>
-        /// Gets the duration for which the signal is defined.
+        /// Gets the duration for which the signal is defined in seconds.
         /// </summary>
-        TimeSpan Duration { get; }
+        double Duration { get; }
 
         /// <summary>
         /// Gets a value indicating whether absolute time values are defined for the signal.
@@ -41,7 +41,8 @@ namespace BinaryMesh.TimeSeries
         /// <summary>
         /// Creates a new <see cref="ISignalReader"/> for the signal.
         /// </summary>
+        /// <param name="startTime">The time at which to position the reader.</param>
         /// <returns>The created <see cref="ISignalReader"/> for the signal.</returns>
-        ISignalReader GetReader(TimeSpan startTime);
+        ISignalReader GetReader(double startTime);
     }
 }

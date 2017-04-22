@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IFrameReader.cs" company="Binary Mesh">
+// <copyright file="IDiscreteFrameReader.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -27,17 +27,22 @@ namespace BinaryMesh.TimeSeries
     /// <summary>
     /// Supports forward reading and, if supported, random seeking of discrete records in a <see cref="IFrame"/>.
     /// </summary>
-    public interface IFrameReader
+    public interface IDiscreteFrameReader
     {
+        /// <summary>
+        /// Gets the <see cref="IFrame"/> the reader iterates over.
+        /// </summary>
+        IFrame Frame { get; }
+
         /// <summary>
         /// Gets the index of the current record.
         /// </summary>
         long CurrentIndex { get; }
 
         /// <summary>
-        /// Gets the current time offset relative to the frame's start of the measurement.
+        /// Gets the current time offset relative to the frame's start of the measurement, in seconds.
         /// </summary>
-        TimeSpan CurrentOffset { get; }
+        double CurrentOffset { get; }
 
         /// <summary>
         /// Advances the reader to the next record.

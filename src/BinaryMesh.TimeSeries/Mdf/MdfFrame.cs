@@ -7,6 +7,7 @@
 using System;
 using System.Linq;
 using BinaryMesh.Data.Mdf;
+using BinaryMesh.TimeSeries.Common;
 
 namespace BinaryMesh.TimeSeries.Mdf
 {
@@ -18,9 +19,9 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         private readonly FrameSignalCollection _signals;
 
-        private TimeSpan _startTime;
+        private double _startTime;
 
-        private TimeSpan _duration;
+        private double _duration;
 
         internal MdfFrame(MdfTimeSeries timeSeries, MdfChannelGroup channelGroup)
         {
@@ -43,40 +44,45 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         internal MdfChannelGroup ChannelGroup => _channelGroup;
 
-        internal TimeSpan StartTime => _startTime;
+        internal double StartTime => _startTime;
 
-        internal TimeSpan Duration => _duration;
+        internal double Duration => _duration;
 
-        internal DateTime AbsoluteStartTime => _channelGroup.File.TimeStamp + StartTime;
+        internal DateTime AbsoluteStartTime => _channelGroup.File.TimeStamp + TimeSpan.FromTicks((long)(TimeSpan.TicksPerSecond * StartTime));
 
-        public IFrameReader GetReader()
+        public IDiscreteFrameReader GetDiscreteReader()
         {
             return new MdfFrameReader(this);
         }
 
+        public IContinuousFrameReader GetContinuousReader(double startTime)
+        {
+            return new ContinuousFrameReader(this, startTime);
+        }
+
         private void InitializeStartAndDuration()
         {
-            _startTime = TimeSpan.Zero;
-            _duration = TimeSpan.Zero;
+            _startTime = 0.0;
+            _duration = 0.0;
 
             MdfChannel timeChannel = _channelGroup.TimeChannel;
             MdfChannelConversion timeConversion = timeChannel.Conversion;
             if (timeConversion != null && timeConversion.MinimumPhysicalSignalValue.HasValue && timeConversion.MaximumPhysicalSignalValue.HasValue)
             {
-                _startTime = TimeSpan.FromSeconds(timeConversion.MinimumPhysicalSignalValue.Value);
-                _duration = TimeSpan.FromSeconds(timeConversion.MaximumPhysicalSignalValue.Value) - _startTime;
+                _startTime = timeConversion.MinimumPhysicalSignalValue.Value;
+                _duration = timeConversion.MaximumPhysicalSignalValue.Value - _startTime;
             }
             else if (timeChannel.MinimumRawSignalValue.HasValue && timeChannel.MaximumRawSignalValue.HasValue)
             {
-                _startTime = TimeSpan.FromSeconds(timeChannel.MinimumRawSignalValue.Value);
-                _duration = TimeSpan.FromSeconds(timeChannel.MaximumRawSignalValue.Value) - _startTime;
+                _startTime = timeChannel.MinimumRawSignalValue.Value;
+                _duration = timeChannel.MaximumRawSignalValue.Value - _startTime;
             }
             else
             {
                 MdfRecordReader reader = _channelGroup.GetRecordReader();
                 if (reader.Read())
                 {
-                    _startTime = TimeSpan.FromSeconds((double)reader.GetValue(timeChannel));
+                    _startTime = (double)reader.GetValue(timeChannel);
 
                     // seek to end of reader
                     if (reader.CanSeek)
@@ -85,12 +91,14 @@ namespace BinaryMesh.TimeSeries.Mdf
                     }
                     else
                     {
-                        while (reader.Read())
+                        int i = 1;
+                        while (i < _channelGroup.Records.Count && reader.Read())
                         {
+                            i++;
                         }
                     }
 
-                    _duration = TimeSpan.FromSeconds((double)reader.GetValue(timeChannel)) - _startTime;
+                    _duration = (double)reader.GetValue(timeChannel) - _startTime;
                 }
             }
         }

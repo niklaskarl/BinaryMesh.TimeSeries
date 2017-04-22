@@ -9,7 +9,7 @@ using BinaryMesh.Data.Mdf;
 
 namespace BinaryMesh.TimeSeries.Mdf
 {
-    internal sealed class MdfFrameReader : IFrameReader
+    internal sealed class MdfFrameReader : IDiscreteFrameReader
     {
         private readonly MdfFrame _frame;
 
@@ -28,6 +28,8 @@ namespace BinaryMesh.TimeSeries.Mdf
             _index = -1;
         }
 
+        public IFrame Frame => _frame;
+
         public long CurrentIndex
         {
             get
@@ -41,7 +43,7 @@ namespace BinaryMesh.TimeSeries.Mdf
             }
         }
 
-        public TimeSpan CurrentOffset
+        public double CurrentOffset
         {
             get
             {
@@ -50,7 +52,7 @@ namespace BinaryMesh.TimeSeries.Mdf
                     throw new InvalidOperationException();
                 }
 
-                return TimeSpan.FromSeconds((double)_reader.GetValue(_timeChannel));
+                return (double)_reader.GetValue(_timeChannel);
             }
         }
 

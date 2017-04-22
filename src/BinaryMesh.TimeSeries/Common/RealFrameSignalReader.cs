@@ -1,24 +1,24 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="SignalReader.cs" company="Binary Mesh">
+// <copyright file="RealFrameSignalReader.cs" company="Binary Mesh">
 // Copyright © Binary Mesh. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
 using System;
 
-namespace BinaryMesh.TimeSeries
+namespace BinaryMesh.TimeSeries.Common
 {
-    internal sealed class FrameSignalRealReader : ISignalReader
+    internal sealed class RealFrameSignalReader : ISignalReader
     {
         private readonly IFrameSignal _signal;
 
-        private readonly IFrameReader _reader;
+        private readonly IDiscreteFrameReader _reader;
 
-        private TimeSpan _currentTime;
+        private double _currentTime;
 
-        private TimeSpan _lastTime;
+        private double _lastTime;
 
-        private TimeSpan _nextTime;
+        private double _nextTime;
 
         private double _lastValue;
 
@@ -30,22 +30,22 @@ namespace BinaryMesh.TimeSeries
 
         private bool _endOfSignal;
 
-        public FrameSignalRealReader(IFrameSignal signal, TimeSpan startTime)
+        public RealFrameSignalReader(IFrameSignal signal, double startTime)
         {
             _signal = signal;
-            _reader = _signal.Frame.GetReader();
             _currentTime = startTime;
+            _reader = _signal.Frame.GetDiscreteReader();
 
             Initialize();
         }
 
         public ISignal Signal => _signal;
 
-        public TimeSpan CurrentTime => _currentTime;
+        public double CurrentTime => _currentTime;
 
-        public bool MoveForward(TimeSpan offset)
+        public bool MoveForward(double offset)
         {
-            if (offset < TimeSpan.Zero)
+            if (offset < 0.0)
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -72,29 +72,6 @@ namespace BinaryMesh.TimeSeries
             return _isLastNull || _isNextNull;
         }
 
-        public bool TryGetReal(out double value)
-        {
-            if (IsNull())
-            {
-                value = default(double);
-                return false;
-            }
-
-            long ticks = _nextTime.Ticks - _lastTime.Ticks;
-            long currentTicks = _currentTime.Ticks - _lastTime.Ticks;
-
-            if (currentTicks == 0)
-            {
-                value = _lastValue;
-            }
-            else
-            {
-                value = _lastValue + (((double)currentTicks / ticks) * (_nextValue - _lastValue));
-            }
-
-            return true;
-        }
-
         public double GetReal()
         {
             if (TryGetReal(out double value))
@@ -105,9 +82,29 @@ namespace BinaryMesh.TimeSeries
             throw new InvalidOperationException();
         }
 
+        public bool TryGetReal(out double value)
+        {
+            if (IsNull())
+            {
+                value = default(double);
+                return false;
+            }
+
+            if (_currentTime == _lastTime)
+            {
+                value = _lastValue;
+            }
+            else
+            {
+                value = _lastValue + (((_currentTime - _lastTime) / (_nextTime - _lastTime)) * (_nextValue - _lastValue));
+            }
+
+            return true;
+        }
+
         public string GetString()
         {
-            throw new NotSupportedException();
+            throw new InvalidOperationException();
         }
 
         private void Initialize()
@@ -133,7 +130,7 @@ namespace BinaryMesh.TimeSeries
         {
             if (!_endOfSignal)
             {
-                while (_reader.Read() && _nextTime < _currentTime)
+                while (_nextTime < _currentTime && _reader.Read())
                 {
                     _lastTime = _nextTime;
                     _lastValue = _nextValue;

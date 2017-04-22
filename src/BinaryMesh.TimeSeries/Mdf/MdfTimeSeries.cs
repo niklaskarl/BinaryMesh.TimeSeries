@@ -26,7 +26,7 @@ namespace BinaryMesh.TimeSeries.Mdf
         public IReadOnlyList<IFrame> Frames { get; }
 
         public IFrameSignalCollection Signals { get; }
-        
+
         public DateTime StartTime => _file.TimeStamp;
     }
 }

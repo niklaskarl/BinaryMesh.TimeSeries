@@ -10,7 +10,7 @@ namespace BinaryMesh.TimeSeries
 {
     /// <summary>
     /// A frame of <see cref="ISignal"/>s which share the same time signal.
-    /// It's signal values can be read using a <see cref="IFrameReader"/>.
+    /// It's signal values can be read using a <see cref="IDiscreteFrameReader"/>.
     /// </summary>
     public interface IFrame
     {
@@ -35,15 +35,22 @@ namespace BinaryMesh.TimeSeries
         long RecordCount { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the <see cref="IFrameReader"/> supports random seek operations or
+        /// Gets a value indicating whether the <see cref="IDiscreteFrameReader"/> supports random seek operations or
         /// only forward oriented read operations.
         /// </summary>
         bool CanSeek { get; }
 
         /// <summary>
-        /// Creates a new <see cref="IFrameReader"/> which can be used to iterate over the signal values.
+        /// Creates a new <see cref="IDiscreteFrameReader"/> which can be used to iterate over the signal values.
         /// </summary>
-        /// <returns>The newly created <see cref="IFrameReader"/>.</returns>
-        IFrameReader GetReader();
+        /// <returns>The newly created <see cref="IDiscreteFrameReader"/>.</returns>
+        IDiscreteFrameReader GetDiscreteReader();
+
+        /// <summary>
+        /// Creates a new <see cref="IContinuousFrameReader"/> which can be used to iterate over the signal values.
+        /// </summary>
+        /// <param name="startTime">The time at which to position the reader.</param>
+        /// <returns>The newly created <see cref="IContinuousFrameReader"/>.</returns>
+        IContinuousFrameReader GetContinuousReader(double startTime);
     }
 }

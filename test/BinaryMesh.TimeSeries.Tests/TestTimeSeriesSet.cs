@@ -20,7 +20,7 @@ namespace BinaryMesh.TimeSeries.Tests
             {
                 ITimeSeries timeSeries = MdfTimeSeriesBuilder.BuildMdfTimeSeriesSetFromStream(stream);
 
-                timeSeries.Frames[1].Signals["test"].GetReader(TimeSpan.Zero);
+                timeSeries.Frames[1].GetReader();
             }
         }
     }
