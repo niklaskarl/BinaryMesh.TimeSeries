@@ -181,7 +181,7 @@ namespace BinaryMesh.TimeSeries.Common
 
             public void Initialize(IDiscreteFrameReader reader)
             {
-                _isLastNull = reader.TryGetReal(_index, out _lastValue);
+                _isLastNull = !reader.TryGetReal(_index, out _lastValue);
 
                 _nextValue = _lastValue;
                 _isNextNull = _isLastNull;
@@ -191,7 +191,7 @@ namespace BinaryMesh.TimeSeries.Common
             {
                 _lastValue = _nextValue;
                 _isLastNull = _isNextNull;
-                _isNextNull = reader.TryGetReal(_index, out _nextValue);
+                _isNextNull = !reader.TryGetReal(_index, out _nextValue);
             }
 
             public bool IsNull()

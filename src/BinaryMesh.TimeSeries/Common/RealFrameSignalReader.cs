@@ -112,7 +112,7 @@ namespace BinaryMesh.TimeSeries.Common
             if (_reader.Read())
             {
                 _lastTime = _reader.CurrentOffset;
-                _isLastNull = _reader.TryGetReal(_signal.Index, out _lastValue);
+                _isLastNull = !_reader.TryGetReal(_signal.Index, out _lastValue);
 
                 _nextTime = _lastTime;
                 _nextValue = _lastValue;
@@ -137,7 +137,7 @@ namespace BinaryMesh.TimeSeries.Common
                     _isLastNull = _isNextNull;
 
                     _nextTime = _reader.CurrentOffset;
-                    _isNextNull = _reader.TryGetReal(_signal.Index, out _nextValue);
+                    _isNextNull = !_reader.TryGetReal(_signal.Index, out _nextValue);
                 }
 
                 if (_nextTime < _currentTime)
