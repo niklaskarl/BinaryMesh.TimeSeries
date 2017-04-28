@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.12
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryMesh.TimeSeries", "src\BinaryMesh.TimeSeries\BinaryMesh.TimeSeries.csproj", "{E6FB208A-D090-48AB-A6BE-7EC3DB40D882}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryMesh.TimeSeries.Scripting", "src\BinaryMesh.TimeSeries.Scripting\BinaryMesh.TimeSeries.Scripting.csproj", "{4A13197E-2C41-4FBC-AE57-A665A89585DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryMesh.TimeSeries.Tests", "test\BinaryMesh.TimeSeries.Tests\BinaryMesh.TimeSeries.Tests.csproj", "{D1A68193-1A8C-4C9C-9DCF-ED8490EEAD48}"
 EndProject
@@ -23,10 +21,6 @@ Global
 		{E6FB208A-D090-48AB-A6BE-7EC3DB40D882}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6FB208A-D090-48AB-A6BE-7EC3DB40D882}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6FB208A-D090-48AB-A6BE-7EC3DB40D882}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A13197E-2C41-4FBC-AE57-A665A89585DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A13197E-2C41-4FBC-AE57-A665A89585DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A13197E-2C41-4FBC-AE57-A665A89585DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A13197E-2C41-4FBC-AE57-A665A89585DF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D1A68193-1A8C-4C9C-9DCF-ED8490EEAD48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D1A68193-1A8C-4C9C-9DCF-ED8490EEAD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1A68193-1A8C-4C9C-9DCF-ED8490EEAD48}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,7 +31,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E6FB208A-D090-48AB-A6BE-7EC3DB40D882} = {794396E0-35DA-409A-8355-1BF62E586779}
-		{4A13197E-2C41-4FBC-AE57-A665A89585DF} = {794396E0-35DA-409A-8355-1BF62E586779}
 		{D1A68193-1A8C-4C9C-9DCF-ED8490EEAD48} = {6B41E2F3-0B69-414F-81C6-C6640CD89D17}
 	EndGlobalSection
 EndGlobal
