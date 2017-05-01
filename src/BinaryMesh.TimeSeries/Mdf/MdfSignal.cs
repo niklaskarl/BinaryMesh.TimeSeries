@@ -59,15 +59,15 @@ namespace BinaryMesh.TimeSeries.Mdf
             }
         }
 
-        private static SignalType GetSignalTypeForMdfDataType(MdfDataType type)
+        private static SignalType GetSignalTypeForMdfDataType(MdfChannelType type)
         {
             switch (type)
             {
-                case MdfDataType.Integer:
-                case MdfDataType.UnsignedInteger:
-                case MdfDataType.FloatingPoint:
+                case MdfChannelType.Integer:
+                case MdfChannelType.UnsignedInteger:
+                case MdfChannelType.Real:
                     return SignalType.Real;
-                case MdfDataType.String:
+                case MdfChannelType.Text:
                     return SignalType.String;
                 default:
                     return SignalType.Unknown;

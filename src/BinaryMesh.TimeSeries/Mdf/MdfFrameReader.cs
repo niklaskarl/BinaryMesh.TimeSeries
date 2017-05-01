@@ -52,7 +52,7 @@ namespace BinaryMesh.TimeSeries.Mdf
                     throw new InvalidOperationException();
                 }
 
-                return (double)_reader.GetValue(_timeChannel);
+                return _reader.GetReal(_timeChannel);
             }
         }
 
@@ -79,43 +79,34 @@ namespace BinaryMesh.TimeSeries.Mdf
 
         public bool IsNull(int signalIndex)
         {
-            /*
-             * The MDF format doesn't support 'null' values.
-             * So simply return false.
-             */
-            return false;
+            return IsNull(_frame.Signals[signalIndex]);
+        }
+
+        public bool IsNull(ISignal signal)
+        {
+            MdfChannel channel = ((MdfSignal)signal).Channel;
+            return _reader.IsNull(channel);
         }
 
         public double GetReal(int signalIndex)
         {
-            return GetReal(_frame.Signals[signalIndex]);
-        }
-
-        public double GetReal(ISignal signal)
-        {
-            MdfChannel channel = ((MdfSignal)signal).Channel;
-            switch (channel.DataType)
+            if (TryGetReal(signalIndex, out double value))
             {
-                case MdfDataType.FloatingPoint:
-                    return (double)_reader.GetValue(channel);
-                case MdfDataType.Integer:
-                    return (long)_reader.GetValue(channel);
-                case MdfDataType.UnsignedInteger:
-                    return (ulong)_reader.GetValue(channel);
-                default:
-                    throw new InvalidCastException();
+                return value;
             }
+
+            throw new InvalidOperationException();
         }
 
         public bool TryGetReal(int signalIndex, out double value)
         {
-            /*
-             * The MDF format doesn't support 'null' values.
-             * So simply get the value and return true.
-             */
+            return TryGetReal(_frame.Signals[signalIndex], out value);
+        }
 
-            value = GetReal(signalIndex);
-            return true;
+        public bool TryGetReal(ISignal signal, out double value)
+        {
+            MdfChannel channel = ((MdfSignal)signal).Channel;
+            return _reader.TryGetReal(channel, out value);
         }
 
         public string GetString(int signalIndex)
@@ -126,13 +117,7 @@ namespace BinaryMesh.TimeSeries.Mdf
         public string GetString(ISignal signal)
         {
             MdfChannel channel = ((MdfSignal)signal).Channel;
-            switch (channel.DataType)
-            {
-                case MdfDataType.String:
-                    return (string)_reader.GetValue(channel);
-                default:
-                    throw new InvalidCastException();
-            }
+            return _reader.GetText(channel);
         }
     }
 }
